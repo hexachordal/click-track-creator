@@ -1,0 +1,38 @@
+Step 1:
+Create button to "play" ✓
+
+Step 2:
+Create 1 beat audio ✓
+
+Step 3:
+Create in garage band: ✓
+2 beats
+3 beats
+4 beats
+5 beats
+7 beats
+
+Step 4:
+Import beats to code
+
+Step 5:
+add code to loop beats
+
+Step 6:
+add code to change text of button to "stop" and stop loop
+
+Step 7:
+code to add beat to button
+
+Step 8:
+button to switch type of beat
+
+Step 9:
+code to switch type of beat
+
+Step 10:
+code for tempos
+
+Step 11:
+button for tempo
+
