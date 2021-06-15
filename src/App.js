@@ -15,15 +15,18 @@ console.clear()
 class App extends React.Component {
   constructor(props){
     super(props);
-    this.change = this.change.bind(this);
+    this.makeAudio = this.makeAudio.bind(this);
+    this.playAudio = this.playAudio.bind(this);
+    //this.downloadAudio = this.downloadAudio.bind(this);
     this.state={
-      beats:[beat1,beat2,beat3,beat4,beat5,beat6,beat7]
+      beats:[beat1,beat2,beat3,beat4,beat5,beat6,beat7],
+      source: ""
     }
   }
   
   
 
- change(){
+ makeAudio(){
   let button = document.querySelector("div > button");
   let measure = document.querySelector("#measure");
   let timesig = document.querySelector("#timesig");
@@ -46,8 +49,10 @@ Promise.all(proms).then(blobs => {
     let blob = new Blob(uris.map((e,i)=>blobs[i])),
         blobUrl = URL.createObjectURL(blob),
         audio = new Audio(blobUrl);
-        console.log(audio)
-    audio.play();
+        this.setState({
+          source: audio
+        })
+    
 });
   
         }
@@ -55,13 +60,45 @@ Promise.all(proms).then(blobs => {
         button.innerText="Push Me"
     }
 }
+
+playAudio(){
   
+  this.state.source.play();
+}
+/*
+downloadAudio(){
+  function onStartedDownload(id) {
+    console.log(`Started downloading: ${id}`);
+  }
+  
+  function onFailed(error) {
+    console.log(`Download failed: ${error}`);
+  }
+  
+  var downloadUrl = this.state.source.src;
+  
+  var downloading = browser.downloads.download({
+    url : downloadUrl,
+    filename : 'click-track.mp3',
+    conflictAction : 'uniquify'
+  });
+  
+  downloading.then(onStartedDownload, onFailed);
+}
+  */
 render(){
   return (
     <div className="App">
-      <button onClick={this.change}>Push Me</button>
+      <button onClick={this.makeAudio}>Push Me</button>
       <input id="timesig" placeholder="time signature" type="number"></input>
       <input id="measure" placeholder="measure nos." type="number"></input>
+      <button onClick={this.playAudio}>Play Audio</button>
+      <audio
+        controls
+        src={this.state.source.src} type="audio/mp3">
+            Your browser does not support the
+            <code>audio</code> element.
+    </audio>
     </div>
   );
   }
