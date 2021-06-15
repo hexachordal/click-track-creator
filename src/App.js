@@ -1,53 +1,70 @@
-import React from "react";
+import React from 'react';
 import './App.css';
+import beat1 from './beats/1beat.mp3'
+import beat2 from './beats/2beat.mp3'
+import beat3 from './beats/3beat.mp3'
+import beat4 from './beats/4beat.mp3'
+import beat5 from './beats/5beat.mp3'
+import beat6 from './beats/6beat.mp3'
+import beat7 from './beats/7beat.mp3'
 
-const audioCtx = new AudioContext();
-let buffer = null;
-
-const load = () => {
-  const request = new XMLHttpRequest();
-  request.open("GET", "/Users/francoisharewood/Desktop/click-track-creator/public/1beat.mp3");
-  request.responseType = "arraybuffer";
-  request.onload = function() {
-    let undecodedAudio = request.response;
-    audioCtx.decodeAudioData(undecodedAudio, (data) => buffer = data);
-  };
-  request.send();
-}
-
-const play = () => {
-  const source = audioCtx.createBufferSource();
-  source.buffer = buffer;
-  source.connect(audioCtx.destination);
-  source.start();
-};
-
-
-//Import Components
+console.clear()
 
 
 
-function App() {
-  //Write JavaScript Here
-  console.clear()
-  
-  
-
-
-  
-  
-  function playSound(){
-    alert('hi')
-    console.log(0)
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.change = this.change.bind(this);
+    this.state={
+      beats:[beat1,beat2,beat3,beat4,beat5,beat6,beat7]
+    }
   }
   
+  
 
+ change(){
+  let button = document.querySelector("div > button");
+  let measure = document.querySelector("#measure");
+  let timesig = document.querySelector("#timesig");
+    if(button.innerText==="Push Me")
+        {button.innerText="Changed"
+        let s = this.state.beats[timesig.value - 1] 
+        
+
+        
+;
+let count= measure.value;
+let uris = [];
+for(let i = 0; i < count; i++){
+  uris.push(s);
+}
+
+let proms = uris.map(uri => fetch(uri).then(r => r.blob()));
+console.log(proms)
+Promise.all(proms).then(blobs => {
+    let blob = new Blob(uris.map((e,i)=>blobs[i])),
+        blobUrl = URL.createObjectURL(blob),
+        audio = new Audio(blobUrl);
+        console.log(audio)
+    audio.play();
+});
+  
+        }
+    else{
+        button.innerText="Push Me"
+    }
+}
+  
+render(){
   return (
     <div className="App">
-      <button onClick={load()} className="button2">load</button>
-      <button onClick={play()} className="button">play</button>
+      <button onClick={this.change}>Push Me</button>
+      <input id="timesig" placeholder="time signature" type="number"></input>
+      <input id="measure" placeholder="measure nos." type="number"></input>
     </div>
   );
+  }
 }
 
 export default App;
