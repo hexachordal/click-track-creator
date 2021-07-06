@@ -17,7 +17,6 @@ class App extends React.Component {
     super(props);
     this.makeAudio = this.makeAudio.bind(this);
     this.playAudio = this.playAudio.bind(this);
-    //this.downloadAudio = this.downloadAudio.bind(this);
     this.state={
       beats:[beat1,beat2,beat3,beat4,beat5,beat6,beat7],
       source: ""
@@ -64,41 +63,17 @@ Promise.all(proms).then(blobs => {
 playAudio(){
   
   this.state.source.play();
+  
 }
-/*
-downloadAudio(){
-  function onStartedDownload(id) {
-    console.log(`Started downloading: ${id}`);
-  }
-  
-  function onFailed(error) {
-    console.log(`Download failed: ${error}`);
-  }
-  
-  var downloadUrl = this.state.source.src;
-  
-  var downloading = browser.downloads.download({
-    url : downloadUrl,
-    filename : 'click-track.mp3',
-    conflictAction : 'uniquify'
-  });
-  
-  downloading.then(onStartedDownload, onFailed);
-}
-  */
+
 render(){
   return (
     <div className="App">
       <button onClick={this.makeAudio}>Push Me</button>
-      <input id="timesig" placeholder="time signature" type="number"></input>
-      <input id="measure" placeholder="measure nos." type="number"></input>
+      <input id="timesig" placeholder="time signature" type="number" min="1"></input>
+      <input id="measure" placeholder="measure nos." type="number" min="1"></input>
       <button onClick={this.playAudio}>Play Audio</button>
-      <audio
-        controls
-        src={this.state.source.src} type="audio/mp3">
-            Your browser does not support the
-            <code>audio</code> element.
-    </audio>
+    <a href={this.state.source.src} download="clicktrack.mp3">Download Me</a>
     </div>
   );
   }
